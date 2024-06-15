@@ -1,0 +1,38 @@
+###################################################################################################
+# Configurations
+###################################################################################################
+
+# Username for the job label (only letters! used in 'com.yourusername.obsidianbackup.plist')
+USERNAME="yourusername"
+
+# Interval time to check if backup is needed (in seconds)
+INTERVAL=300
+
+# Max daily backups
+MAX_DAILY_BACKUPS=5
+
+# Set to true to require 2 consecutive intervals with device connectivity before backups.
+# This helps ensure the vaults are fully synced.
+REQUIRE_TWO_ONLINE_INTERVALS=true
+
+# Set to true to enable Syncthing check - backup would run only if Syncthing is running.
+# If you don't use Syncthing for syncinc vaults, ignore this setting.
+SYNCTHING=true
+
+###################################################################################################
+# NOTE: unless you know what your doing, avoid modifying settings below this point.
+###################################################################################################
+
+# Path to the backup script
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_SCRIPT="$REPO_DIR/src/backup.sh"
+AUTOMATE_SCRIPT="$REPO_DIR/src/automate.sh"
+UNAUTOMATE_SCRIPT="$REPO_DIR/src/unautomate.sh"
+
+# Output and error log paths
+STDOUT_PATH="/tmp/obsidian-backup.out"
+STDERR_PATH="/tmp/obsidian-backup.err"
+
+# Automation check log (must be separate files)
+CHECK_PATH="/tmp/obsidian-backup.chk"
+TIMESTAMP_PATH="/tmp/obsidian-backup-online.chk"

@@ -16,11 +16,6 @@ is_syncthing_running() {
   fi
 }
 
-# Function to get the current time in seconds
-get_current_time() {
-  date +%s
-}
-
 # Function to check if the Obsidian app is running
 is_obsidian_running() {
   if pgrep -x "Obsidian" >/dev/null; then

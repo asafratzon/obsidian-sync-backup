@@ -1,29 +1,32 @@
 ###################################################################################################
-# Configurations
+# User Settings
 ###################################################################################################
 
 # Username for the job label (only letters! used in 'com.yourusername.obsidianbackup.plist')
 USERNAME="yourusername"
 
-# Interval time to check if backup is needed (in seconds)
-INTERVAL=300
+# Interval time to run backup script in minutes
+AGENT_INTERVAL=5
+
+# Interval time to check if backup is needed in minutes
+MAX_BACKUP_FREQUENCY=240
 
 # Max daily backups
 MAX_DAILY_BACKUPS=5
 
-# Set to true to require 2 consecutive intervals with device connectivity before backups.
-# This helps ensure the vaults are fully synced.
-REQUIRE_TWO_ONLINE_INTERVALS=true
+# Set to true to require a complete interval of connectivity before backups.
+# This helps ensure the vaults are fully synced prior to performing backups.
+REQUIRE_CONNECTIVITY_INTERVAL=true
 
 # Set to true to enable Syncthing check - backup would run only if Syncthing is running.
 # If you don't use Syncthing for syncinc vaults, ignore this setting.
 SYNCTHING=true
 
 ###################################################################################################
-# NOTE: unless you know what your doing, avoid modifying settings below this point.
+# System Settings (unless you know what your doing, avoid modifying settings below)
 ###################################################################################################
 
-# Path to the backup script
+# Scripts paths
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_SCRIPT="$REPO_DIR/src/backup.sh"
 AUTOMATE_SCRIPT="$REPO_DIR/src/automate.sh"
@@ -33,6 +36,16 @@ UNAUTOMATE_SCRIPT="$REPO_DIR/src/unautomate.sh"
 STDOUT_PATH="/tmp/obsidian-backup.out"
 STDERR_PATH="/tmp/obsidian-backup.err"
 
-# Automation check log (must be separate files)
+# Automation checks file (LAST_BACKUP_DATE LAST_BACKUP_TIME LAST_CHECK_TIME COUNT)
 CHECK_PATH="/tmp/obsidian-backup.chk"
-TIMESTAMP_PATH="/tmp/obsidian-backup-online.chk"
+
+# Current timestamp for log output
+LOG="[$(date '+%Y-%m-%d %H:%M:%S')]"
+
+# Convert the agent interval to seconds
+AGENT_INTERVAL_SEC=$((AGENT_INTERVAL * 60))
+
+# Convert the max backup frequency to seconds
+MAX_BACKUP_FREQUENCY_SEC=$((MAX_BACKUP_FREQUENCY * 60))
+
+###################################################################################################

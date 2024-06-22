@@ -15,7 +15,7 @@ launchctl unload "$PLIST_FILE"
 rm -f "$PLIST_FILE"
 
 # Remove log files
-rm -f "$STDOUT_PATH" "$STDERR_PATH" "$CHECK_PATH" "$TIMESTAMP_PATH"
+rm -f "$STDOUT_PATH" "$STDERR_PATH" "$CHECK_PATH"
 
 # Display a notification
 osascript -e 'display notification "Backup automation uninstalled." with title "Obsidian Backup"'

@@ -33,7 +33,7 @@ cat <<EOF >"$PLIST_FILE"
     </array>
 
     <key>StartInterval</key>
-    <integer>${INTERVAL}</integer>
+    <integer>${AGENT_INTERVAL_SEC}</integer>
 
     <key>RunAtLoad</key>
     <true/>

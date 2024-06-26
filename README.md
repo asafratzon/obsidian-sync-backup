@@ -2,17 +2,17 @@
 
 Automated backup solution for Obsidian vaults, designed for users utilizing free Sync options.
 
-This solution uses a Launch Agent to automate the backups of your Obsidian vaults. A Launch Agent is a type of launch daemon in macOS that automatically launches and manages processes, scripts, and other types of jobs.
+This solution uses a Launch Agent to automate the backups of your Obsidian vaults. A Launch Agent is a type of launch daemon in macOS that automatically launches and manages processes.
 
 ## Introduction
 
-For the optimal sync and backup solution, consider opting for Obsidian's Sync feature as it supports ongoing development. Visit Obsidian's official website to learn why it's awesome.
+For the optimal sync and backup solution, consider opting for Obsidian's official Sync feature as it supports ongoing development. Visit Obsidian's [official website](https://obsidian.md) to learn why it's awesome.
 
 This repository provides an automated backup solution tailored for Obsidian users, especially those utilizing free synchronization methods like Syncthing. It ensures periodic backups to safeguard against data loss, complementing a setup that includes Obsidian for note-taking and Syncthing for cross-device synchronization.
 
 ### Prerequisites / Limitations / Notes
 
-- GitHub backups are designed to function independently and do not require any additional plugins from the Obsidian backup community.
+- GitHub backups are designed to function independently and do not require any additional plugins from the Obsidian plugins community.
 - This repository is intended for use on macOS (Apple) personal computers or laptops. It is not compatible with Windows and should not be used on mobile devices.
 - It is recommended to set up this backup solution on only one machine to minimize the risk of conflicting backups. If you use multiple personal computers or laptops, consider setting it up on the one you use most frequently. Remember, this repository is focused solely on daily backups; syncing should be managed separately.
 
@@ -23,13 +23,13 @@ My recommended setup for a fully synced and backed-up open-source notes solution
 1. **Syncthing**: For syncing notes across devices securely and freely, see [official website](https://syncthing.net).
 2. **Obsidian**: For its powerful note-taking capabilities, see [official website](https://obsidian.md).
 3. **This repository**: For automated backups, ensuring your notes are always safe and recoverable.
-4. Consider Importer community plugin for importing existing notes: [Importer Community Plugin](obsidian://show-plugin?id=obsidian-importer).
+4. Consider [Importer Community Plugin](obsidian://show-plugin?id=obsidian-importer) for importing existing notes.
 
 If you've already got an existing/different setup in place, may the force be with you.
 
 ### Objective Overview
 
-Assuming you have multiple devices including several mobile devices and laptops/PCs, our goal is to sync Obsidian notes across all devices. One device, referred to as the "main laptop", will be responsible for periodic backups of your notes.
+Assuming you have multiple devices including mobile device/s and laptop/s and/or PC/s, our goal is to sync Obsidian notes across all devices. One device, referred to as the "main laptop", will be responsible for periodic backups of your notes.
 
 1. **Setup Syncthing on Your Main Laptop**
 

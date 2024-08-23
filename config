@@ -3,13 +3,15 @@
 ###################################################################################################
 
 # Username for the job label (only letters! used in 'com.yourusername.obsidianbackup.plist')
+# Note: to apply changes reinstall automations with `./run.sh --uninstall && ./run.sh --install`
 USERNAME="yourusername"
 
 # Interval time to run backup script in minutes
+# Note: to apply changes reinstall automations with `./run.sh --uninstall && ./run.sh --install`
 AGENT_INTERVAL=5
 
-# Interval time to check if backup is needed in minutes
-MAX_BACKUP_FREQUENCY=240
+# Max interval time to check if backup is needed in minutes (since last backup)
+MAX_BACKUP_FREQUENCY=60
 
 # Max daily backups
 MAX_DAILY_BACKUPS=5
@@ -19,7 +21,7 @@ MAX_DAILY_BACKUPS=5
 REQUIRE_CONNECTIVITY_INTERVAL=true
 
 # Set to true to enable Syncthing check - backup would run only if Syncthing is running.
-# If you don't use Syncthing for syncinc vaults, ignore this setting.
+# If you don't use Syncthing for syncing vaults - set to false to ignore this setting.
 SYNCTHING=true
 
 ###################################################################################################

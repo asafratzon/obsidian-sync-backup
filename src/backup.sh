@@ -97,7 +97,7 @@ perform_backup() {
   # Check if we have any changes to commit
   if [ -z "$(git -C "$REPO_DIR" status --porcelain)" ]; then
     echo "$LOG Backup is already up to date (no changes to commit)."
-    return 0
+    return 2
   fi
 
   # Add all changes
@@ -152,8 +152,6 @@ cron_checks() {
       # Maximum daily backups reached
       echo "$LOG Maximum daily backups reached (Run without '--cron' to backup anyway)"
       exit 0
-    else
-      COUNT=$((COUNT + 1))
     fi
   else
     COUNT=1
@@ -175,14 +173,30 @@ main() {
     cron_checks
   fi
 
-  if ! perform_backup; then
+  # Attempt backup and capture exit code (0 = succesful backup, 1 = unexpected error, 2 = nothing to backup)
+  perform_backup
+  backup_result=$?
+
+  if [ "$backup_result" -eq 1 ]; then
     echo "$LOG Backup failed."
+    osascript -e 'display notification "Remote backup failed - check the logs for more info." with title "Obsidian Backup"'
     exit 1
+  elif [ "$backup_result" -eq 2 ]; then
+    echo "$LOG Nothing to backup. Exiting."
+
+    if [ "$CRON" == true ]; then
+      # Update the LAST_CHECK_TIME in check file (only if '--cron' was passed)
+      CURRENT_TIME=$(date +%s)
+      echo "$LAST_BACKUP_DATE $LAST_BACKUP_TIME $CURRENT_TIME $COUNT" >"$CHECK_PATH"
+    fi
+
+    exit 0
   fi
 
-  # Update the check file (only if '--cron' was passed)
+  # Backup completed - update the check file (only if '--cron' was passed)
   if [ "$CRON" == true ]; then
-    CURRENT_TIME=$(date +%s) # Ensure CURRENT_TIME is updated for the final write
+    CURRENT_TIME=$(date +%s)
+    COUNT=$((COUNT + 1))
     echo "$CURRENT_DATE $CURRENT_TIME $CURRENT_TIME $COUNT" >"$CHECK_PATH"
   fi
 

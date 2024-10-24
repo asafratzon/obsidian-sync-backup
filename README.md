@@ -133,6 +133,14 @@ cd /Users/yourusername/Sync/Obsidian
 ./run.sh --uninstall
 ```
 
+### Solved: "fatal: the remote end hung up unexpectedly"
+If you encounter this issue, update your local git repository settings with:
+
+```bash
+# Run the following from within repository root directory
+git config http.postBuffer 10g
+```
+
 ### Free and Open Source
 
 This repository is freely available for anyone to use, fork or modify under the GNU General Public License v3. I wish everyone much love and all the best on their journey with Obsidian and beyond.

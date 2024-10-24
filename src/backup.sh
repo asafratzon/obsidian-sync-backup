@@ -94,23 +94,33 @@ check_online_status() {
 }
 
 perform_backup() {
-  # Check if we have any changes to commit
+  # Check if there are uncommitted changes in the working directory
   if [ -z "$(git -C "$REPO_DIR" status --porcelain)" ]; then
-    echo "$LOG Backup is already up to date (no changes to commit)."
-    return 2
+    # Check if there are local commits that haven't been pushed
+    if [ "$(git -C "$REPO_DIR" rev-list --count origin/main..HEAD)" -gt 0 ]; then
+      echo "$LOG There are local commits that need to be pushed."
+    else
+      echo "$LOG Backup is already up to date (no changes and no local commits)."
+      return 2
+    fi
   fi
 
-  # Add all changes
+  # Add all changes (if any)
   if ! git -C "$REPO_DIR" add .; then
     echo "$LOG Failed to add changes."
     return 1
   fi
 
-  # Commit changes with a default message
-  commit_message="Backup: $(date)"
-  if ! git -C "$REPO_DIR" commit -m "$commit_message"; then
-    echo "$LOG Failed to commit changes."
-    return 1
+  # Check if there are staged changes to commit
+  if [ -n "$(git -C "$REPO_DIR" diff --cached --name-only)" ]; then
+    # Commit changes with a default message
+    commit_message="Backup: $(date)"
+    if ! git -C "$REPO_DIR" commit -m "$commit_message"; then
+      echo "$LOG Failed to commit changes."
+      return 1
+    fi
+  else
+    echo "$LOG No changes to commit."
   fi
 
   # Pull the latest changes from the remote repository and rebase
@@ -119,7 +129,7 @@ perform_backup() {
     return 1
   fi
 
-  # Push the changes
+  # Push the changes (including any local commits)
   if ! git -C "$REPO_DIR" push origin main; then
     echo "$LOG Failed to push changes."
     return 1
